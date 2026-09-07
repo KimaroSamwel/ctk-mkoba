@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTK MKOBA 2012 — Katiba, Uwekezaji na Mwongozo</title>
+<style>
+  :root{
+    --green:#1b7a4b; --green-d:#115c37; --green-l:#e6f4ec;
+    --amber:#b7791f; --amber-l:#fdf3e3;
+    --red:#b3261e; --red-l:#fdecea;
+    --blue:#1d4e89; --blue-l:#e8f0fa;
+    --ink:#15302a; --mut:#5c726b; --line:#dce8e2; --bg:#f4f8f6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55;}
+  .wrap{max-width:960px; margin:0 auto; padding:14px;}
+  header{background:linear-gradient(135deg,var(--green-d),var(--green)); color:#fff; border-radius:16px; padding:20px 18px; margin-bottom:14px;}
+  header h1{font-size:21px; letter-spacing:.3px;}
+  header .sub{opacity:.92; font-size:13.5px; margin-top:2px;}
+  .back{display:inline-block; margin:2px 0 12px; color:var(--green-d); font-weight:700; text-decoration:none; font-size:13.5px;}
+  .tabs{display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap;}
+  .tabs button{border:none; background:#fff; border:1px solid var(--line); color:var(--mut); border-radius:10px 10px 0 0; padding:10px 16px; font-size:13.5px; font-weight:700; cursor:pointer;}
+  .tabs button.on{background:var(--green-d); color:#fff; border-color:var(--green-d);}
+  .panel{display:none; background:#fff; border:1px solid var(--line); border-radius:0 12px 12px 12px; padding:18px; margin-bottom:16px;}
+  .panel.on{display:block;}
+  h2{font-size:17px; margin:4px 0 10px; color:var(--green-d); border-bottom:2px solid var(--green-l); padding-bottom:6px;}
+  h3{font-size:14.5px; margin:14px 0 6px; color:var(--ink);}
+  p{margin:6px 0;}
+  ol,ul{margin:6px 0 10px 22px;}
+  li{margin:4px 0;}
+  .quote{background:var(--green-l); border-left:4px solid var(--green); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:13.5px;}
+  .amendment{background:var(--amber-l); border-left:4px solid var(--amber); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:13.5px;}
+  .warn{background:var(--red-l); border-left:4px solid var(--red); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:13.5px;}
+  .note{background:var(--blue-l); border-left:4px solid var(--blue); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:13.5px;}
+  .special{font-weight:600; color:var(--red);}
+  .sig{background:var(--green-l); border-radius:10px; padding:12px 14px; margin-top:14px; font-size:13.5px;}
+  .faq{border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden;}
+  .faq summary{cursor:pointer; padding:12px 14px; font-weight:700; font-size:14px; background:#fff; list-style:none;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::before{content:"Q  "; color:var(--green);}
+  .faq[open] summary{background:var(--green-l);}
+  .faq .a{padding:2px 14px 12px; font-size:13.5px;}
+  .faq .a::before{content:"A  "; color:var(--amber); font-weight:700;}
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:6px;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:13px;}
+  .card .lbl{font-size:11.5px; color:var(--mut); text-transform:uppercase; letter-spacing:.5px;}
+  .card .val{font-size:18px; font-weight:700; margin-top:3px;}
+  .card .small{font-size:11.5px; color:var(--mut); margin-top:2px;}
+  details.sec{border:1px solid var(--line); border-radius:12px; margin:10px 0; background:#fff; overflow:hidden;}
+  details.sec>summary{cursor:pointer; padding:12px 14px; font-weight:700; font-size:14px; background:var(--green-d); color:#fff; list-style:none;}
+  details.sec>summary::-webkit-details-marker{display:none;}
+  details.sec[open]>summary{background:var(--green);}
+  details.sec>.sb{padding:12px 14px; font-size:13.5px;}
+  details.fund{border:1px solid var(--line); border-radius:12px; margin:8px 0; background:#fff; overflow:hidden;}
+  details.fund>summary{cursor:pointer; padding:11px 13px; font-weight:700; font-size:13.5px; background:#f8fbf9; list-style:none; display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+  details.fund>summary::-webkit-details-marker{display:none;}
+  details.fund[open]>summary{background:var(--green-l);}
+  details.fund .fb{padding:10px 13px; font-size:13px; border-top:1px dashed var(--line);}
+  .pill{display:inline-block; border-radius:99px; padding:2px 9px; font-size:11px; font-weight:600;}
+  .pill.safe{background:var(--green-l); color:var(--green-d);}
+  .pill.med{background:var(--amber-l); color:var(--amber);}
+  .pill.hi{background:var(--red-l); color:var(--red);}
+  .rate{font-weight:700; color:var(--green-d);}
+  .pl{display:block; color:var(--blue); font-weight:600; text-decoration:none; font-size:12.3px; word-break:break-all; margin-top:3px;}
+  .pl:hover{text-decoration:underline;}
+  table.inv{width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:12.8px;}
+  table.inv th, table.inv td{padding:9px 9px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  table.inv th{background:var(--green-d); color:#fff; font-size:12px;}
+  table.inv tr:last-child td{border-bottom:none;}
+  .calc{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; margin-top:10px;}
+  .calc .row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;}
+  .calc label{font-size:12px; color:var(--mut); display:block; margin-bottom:3px;}
+  .calc input{width:150px; padding:9px 10px; border:1px solid var(--line); border-radius:10px; font-size:16px; font-weight:600;}
+  .calc select{padding:9px 10px; border:1px solid var(--line); border-radius:10px; font-size:14px; background:#fff;}
+  .res{margin-top:12px; font-size:13px;}
+  table.share{width:100%; border-collapse:collapse; margin-top:10px; font-size:12.8px;}
+  table.share th, table.share td{padding:8px 7px; border-bottom:1px solid var(--line); text-align:left;}
+  table.share th{background:var(--green-l); color:var(--green-d); font-size:12px;}
+  .mini{font-size:12px; color:var(--mut);}
+  footer{text-align:center; font-size:12px; color:var(--mut); margin:18px 0 8px;}
+  @media(max-width:700px){ .cards{grid-template-columns:1fr;} .wrap{padding:10px;} header h1{font-size:18px;} h2{font-size:16px;} .tabs button{flex:1; padding:10px 6px; font-size:12.5px;} }
+  @media(max-width:480px){ .panel{padding:14px;} .fl .calc input{width:100%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<noscript>
+  <div style="background:var(--amber-l);border-left:4px solid var(--amber);border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:10px;"><b>Tahadhari / Note:</b> Fungua ukurasa huu kwa browser (Chrome/Safari) — si kwenye onyesho la WhatsApp, ili vitega programu (calculators) vifanye kazi. <i>Open this page in a browser for the calculators to work.</i></div>
+</noscript>
+<a class="back" href="index.html">&larr; Rudi kwenye Dashboard kuu</a>
+
+<header>
+  <h1>&#128200; Katiba, Uwekezaji na Mwongozo — CTK MKOBA 2012</h1>
+  <div class="sub">Jalada moja: Katiba + Mpango wa Uwekezaji + Maswali (FAQ) + Mwongozo wa Mkutano &middot; Imesasishwa Oktoba 2026</div>
+</header>
+
+<div class="tabs">
+  <button id="tabKatiba" class="on" onclick="show('katiba')">Katiba</button>
+  <button id="tabInvest" onclick="show('invest')">Uwekezaji</button>
+  <button id="tabFaq" onclick="show('faq')">Maswali (FAQ)</button>
+  <button id="tabMeet" onclick="show('meet')">Mkutano</button>
+</div>
+
+<div class="panel on" id="panel-katiba">
+  <h2>KATIBA YA KIKUNDI CHA M-KOBA C.T.K 2012</h2>
+  <div class="amendment"><b>Marekebisho ya Septemba 2026:</b> (1) Kamati ya uongozi sasa ina viongozi <b>watatu</b> — Mwenyekiti, Katibu, Mwekahazina; (2) Sura mpya <b>4.2 Uwekezaji</b> imeongezwa; (3) Sera ya <b>kuondolewa kwa wanachama wasiolipa</b> (9.2) imeongezwa; (4) <b>Faini</b> za kuchelewa zinaanza kutumika <b>Januari 2027</b>; (5) Mwekahazina sasa ni <b>VANESSA SOKA</b> (alichukua nafasi ya Elizabeth Malima); (6) Sura mpya za <b>4.3 HISA</b>, <b>4.4 MIKOPO NA RIBA</b> na <b>4.5 MTAJI NA GHARAMA ZA UENDESHAJI</b> zimeandaliwa kama rasimu — zitathibitishwa kwa kura ya zaidi ya 75% ya wanachama wote (kwa mujibu wa 9.1); (7) <b>Misaada imesasishwa (Oktoba 2026):</b> Msiba TZS 150,000; Harusi/Sendoff TZS 100,000; Ugonjwa/Ajali TZS 150,000 — Babyshower/Kujifungua <b>imeondolewa</b> kwenye misaada ya mfuko.</div>
+
+  <details class="sec" open><summary>SEHEMU YA KWANZA: TAARIFA YA KIKUNDI</summary>
+  <div class="sb">
+  <ol>
+    <li>Kikundi cha C.T.K 2012 ni muungano wa wanafunzi waliohitimu Christ the King Primary School mwaka 2012.</li>
+    <li>Kikundi hiki kimeanzishwa mwezi Januari, 2024.</li>
+    <li>Kikundi hiki ni wanachama wa akaunti ya M-Koba, huduma ya kifedha inayoendeshwa na M-Pesa Limited kwa kushirikiana na TCB Bank.</li>
+    <li>Shughuli za kikundi zitatekelezwa kwa njia ya mtandaoni kupitia WhatsApp.</li>
+    <li>Lugha rasmi za kikundi ni Kiswahili na Kiingereza.</li>
+  </ol>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA PILI: DHUMUNI NA MALENGO</summary>
+  <div class="sb">
+  <ol start="2">
+    <li>2.1 Dhumuni kuu la kikundi ni kushirikiana kijamii na kiuchumi.</li>
+    <li>2.2 Malengo mahususi: kusaidiana wakati wa shida na raha — Misiba kwa ndugu wa karibu (Baba, Mama, Dada/Kaka, Mume, Mke, au Mtoto); Sherehe kama Sendoff na Harusi; Kuimarisha mshikamano wa wanachama.</li>
+  </ol>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA TATU: UWANAKIKUNDI</summary>
+  <div class="sb">
+  <ol start="3">
+    <li><b>3.1.1 Sifa:</b> Awe amesoma Christ the King Primary School (2006–2012); mwenye akili timamu na wa kuaminika; tayari kuheshimu na kuongozwa na katiba.</li>
+    <li><b>3.1.2 Haki:</b> Kupata huduma zote bila ubaguzi; kupokea taarifa muhimu; kuchagua na kuchaguliwa; kutoa hoja au maoni; kujitoa kwa hiari kwa taratibu.</li>
+    <li><b>3.1.3 Wajibu:</b> Kuchangia <b>Tsh 10,000/=</b> kila mwezi (kuanzia Januari 2025); kufuata kanuni na maazimio; kushiriki katika miradi ya maendeleo; kutumia lugha ya staha; kuwakilisha kikundi kwenye matukio.</li>
+    <li><b>3.1.4 Maadili:</b> Kupendana na kuheshimiana; kukubali kukosolewa kwa kujenga; kuepuka rushwa, dharau, chuki, matusi na hasira; uaminifu na heshima.</li>
+    <li><b>3.1.5 Ukomo wa uwanakikundi:</b> Kifo; kushindwa kuchangia miezi sita mfululizo bila taarifa; kujiuzulu kwa hiari; udanganyifu au wizi wa mali za kikundi.
+      <div class="quote"><b>NB:</b> Mwanakikundi anayeondoka kwa hiari hatapewa au kurudishiwa kiasi chochote cha michango yake. Hata hivyo, kwa matukio ya msiba au harusi, kiasi kilichotolewa kitazingatia michango yake kwa kipindi cha uanachama.</div>
+    </li>
+  </ol>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA NNE: MCHANGO, FAINI, MISAADA NA UWEKEZAJI</summary>
+  <div class="sb">
+  <p><b>4.1.1 Mchango wa Kila Mwezi:</b> Kila mwanachama analipa <b>Tsh 10,000/=</b> kila mwezi kwa wakati kuanzia Januari 2025. Kuchelewa zaidi ya miezi miwili bila sababu ya msingi kutasababisha faini. Mtunza fedha atahakikisha rekodi zinasasishwa na kupatikana kwa uwazi.</p>
+  <p><b>4.1.2 Faini na Adhabu:</b> Mwanachama atakayechelewa kulipa mchango kwa zaidi ya miezi miwili atalipa faini ya <b>Tsh 10,000/=</b> pamoja na kiasi cha mchango wa miezi aliyoacha kulipa.</p>
+  <div class="amendment"><b>Marekebisho (Septemba 2026):</b> Utaratibu huu wa faini <b>unazingatiwa kuanzia Januari 2027</b>, ili wanachama waliobaki waweze kutulia madeni yao ya awali bila mzigo wa faini ya ziada.</div>
+  <p><b>4.1.3 Kuhifadhi Fedha:</b> Fedha za kikundi zitahifadhiwa katika akaunti ya <b>M-KOBA (M-Pesa)</b> kwa usalama.</p>
+  <p><b>4.1.4 Kutoa Fedha (Misaada ya Kikatiba) — imesasishwa Oktoba 2026:</b></p>
+  <ul>
+    <li><b>Rambirambi</b> (Wazazi, mtoto, dada, kaka au mdogo wa tumbo moja): <b>shilingi 150,000/=</b> kutoka kwenye A/C ya M-KOBA. Wanachama wanaweza kuchangia hiari kuwahudhuria.</li>
+    <li><b>Harusi au Sendoff:</b> <b>shilingi 100,000/=</b> + zawadi ya pongezi.</li>
+    <li><b>Ugonjwa/Ajali inayolazimisha kulazwa zaidi ya siku nne:</b> <b>shilingi 150,000/=</b> kwa pole na asilimia fulani ya matibabu.</li>
+  </ul>
+  <div class="warn"><b>Marekebisho (Oktoba 2026):</b> Msaada wa <b>Babyshower/Kujifungua umeondolewa</b> kwenye misaada ya mfuko. Hii imefanywa kutokana na kupungua kwa wanachama (kutoka 41 hadi 30) ili mfuko uendelee kuimarika na fedha zilenge uwekezaji na misaada muhimu. Marekebisho haya yataidhinishwa kwa kura ya mkutano (zaidi ya 75% — 9.1).</div>
+  <p>Malipo yatafanyika kwa njia ya simu baada ya kukamilika kwa utaratibu wa utoaji wa fedha. <b>NB:</b> Michango yote inawanufaisha wanachama tu; michango binafsi au ya ziada utaruhusiwa ila haitagusa mfuko wa kikundi.</p>
+  <p><b>4.1.5 Ada za Uanachama:</b> <b>Tsh 20,000/=</b> kwa mwaka kuanzia Januari 2025; ada itakusanywa ndani ya miezi sita ya mwanzo wa mwaka (kabla ya Juni kumalizika).</p>
+  <div class="warn"><b>4.2 UWEKEZAJI (Sura mpya — Septemba 2026)</b>
+    <ul style="margin:6px 0 0 18px;">
+      <li>Kikundi kinaweza kuwekeza fedha kupitia vyombo vya kifedha vilivyoidhinishwa na <b>CMSA/BoT</b> (mfano unit trusts za UTT AMIS, money market funds, Treasury Bills na Bonds).</li>
+      <li>Faida ya uwekezaji <b>itagawiwa kwa uwiano wa michango ya mwanachama (pro-rata)</b>.</li>
+      <li>Kwanza, mgao wa mwanachama mwenye deni utatumika <b>kufidia deni lake</b>; salio litapewa baada ya kulipwa.</li>
+      <li>Wanachama walioondolewa au waliojiaondoa <b>hawatahesabiwa</b> katika mgawo wa faida.</li>
+      <li>Uwekezaji unaanza rasmi <b>Septemba 2026</b>: kiwango cha awali cha 60%–70% ya salio la akaunti (sehemu kubwa), na kila mwezi 30% ya michango ya mwezi. Kiasi cha mwisho kitathibitishwa kwa kura ya wanachama.</li>
+      <li>Viwango vyote vya faida na vyombo vitathibitishwa na uongozi kabla ya kuwekeza na kurekodiwa kwa uwazi.</li>
+    </ul>
+  </div>
+
+  <div class="warn"><b>4.3 HISA (SHARES) — Sura mpya (rasimu, Septemba 2026)</b>
+    <ul style="margin:6px 0 0 18px;">
+      <li><b>Hisa moja = TZS 10,000.</b> Mwanachama yeyote anaweza kununua hisa wakati wowote kupitia Mwekahazina; rekodi ya hisa za kila mwanachama itatunzwa na kuripotiwa kila mwezi.</li>
+      <li><b>Lengo la hisa kwa mwaka 1:</b> kila mwanachama atarajiwa kuwa na angalau <b>hisa 12 (= TZS 120,000)</b> kufikia mwisho wa mwaka wa kwanza wa mpango (Septemba 2026 – Agosti 2027); linaweza kulipwa kwa awamu (hisa 1–2 kila mwezi).</li>
+      <li><b>Kikomo:</b> mwanachama mmoja anaweza kushikilia hadi <b>hisa 50 (= TZS 500,000)</b> ili mgawo wa faida ubaki sawa na haki.</li>
+      <li><b>Dividends:</b> hisa zote zinalipa mgawo wa faida ya uwekezaji + riba ya mikopo (mara moja kwa mwaka baada ya hesabu kukamilika) kwa uwiano wa hisa alizonazo mwanachama.</li>
+      <li>Mwanachama anayeondoka hatapewa fedha kwa hisa zake (kwa mujibu wa 3.1.5); hisa zake zinaweza kuhamishiwa kwa mwanachama mwingine kwa idhini ya uongozi.</li>
+    </ul>
+  </div>
+
+  <div class="warn"><b>4.4 MIKOPO (LOANS) NA RIBA — Sura mpya (rasimu, Septemba 2026)</b>
+    <ul style="margin:6px 0 0 18px;">
+      <li>Mwanachama anaweza kuomba mkopo kwa Kamati Kuu; maombi yanaidhinishwa kwa makubaliano ya viongozi watatu na kurekodiwa kwa uwazi.</li>
+      <li><b>Kikomo cha mkopo:</b> si zaidi ya <b>80% ya mchango + hisa</b> zake alizoweka, na si zaidi ya <b>TZS 2,000,000</b> — chochote kiwe kidogo. Jumla ya mikopo inayotolewa wakati wowote isizidi 60–70% ya salio la akaunti.</li>
+      <li><b>Riba (interest):</b> <b>10% flat</b> ya kiasi alichokopa, inayohesabiwa mara moja wakati mkopo unatolewa.</li>
+      <li><b>Marejesho (repayment):</b>
+        <ul style="margin:4px 0 4px 16px;">
+          <li>Mkopo wa hadi <b>TZS 500,000</b>: kurejeshwa ndani ya <b>miezi 6</b> kwa awamu sawa za kila mwezi (mtaji + riba).</li>
+          <li>Mkopo wa zaidi ya <b>TZS 500,000</b>: mpango wa <b>miezi 12 (mwaka 1)</b> kwa idhini ya Kamati Kuu.</li>
+        </ul>
+      </li>
+      <li><b>Faini ya kuchelewesha marejesho:</b> mwanachama atakayekawia zaidi ya siku 30 atalipa faini ya <b>2% ya kiasi kilichobaki</b> kwa kila mwezi wa kuchelewa; akichelewesha mara 3 mfululizo, <b>dividends ya hisa na faida yake ya uwekezaji itatumika kufidia deni</b>.</li>
+      <li>Mwanachama hatapewa mkopo mpya kabla ya kumaliza angalau 50% ya marejesho ya mkopo wa awali.</li>
+    </ul>
+  </div>
+
+  <div class="warn"><b>4.5 MTAJI NA GHARAMA ZA KUENDESHA KIKUNDI — Sura mpya (rasimu, Septemba 2026)</b>
+    <ul style="margin:6px 0 0 18px;">
+      <li><b>Mtaji wa mwanachama kwa mwaka:</b> kila mwanachama atarajiwa kufikia jumla ya mtaji (michango + hisa) wa angalau <b>TZS 240,000 kwa mwaka</b> (michango 120,000 + hisa 120,000), kuanzia mwaka wa kwanza wa mpango huu.</li>
+      <li><b>Gharama za uendeshaji (running costs):</b> ada za majukwaa, gharama za kikao/mikutano, mawasiliano na ada za uwekezaji. Chanzo cha gharama hizo:
+        <ul style="margin:4px 0 4px 16px;">
+          <li>Hadi <b>20% ya riba ya mikopo</b> inayokusanywa.</li>
+          <li>Ada ya uanachama (TZS 20,000 kwa mwaka).</li>
+          <li>Ikibidi, hadi <b>5% ya faida ya mwaka</b> kwa idhini ya mkutano wa wanachama.</li>
+        </ul>
+      </li>
+      <li>Gharama zote zinarekodiwa na Mwekahazina na kuripotiwa kila mwezi; bajeti ya kila mwaka inapitishwa na wanachama katika mkutano mkuu.</li>
+    </ul>
+  </div>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA TANO: CHARITY EVENTS</summary>
+  <div class="sb">
+  <p>Kikundi kitafanya matukio mawili ya hisani kila mwaka (mfano Pasaka na Krismasi / Machi na Septemba). Michango yake itatolewa <b>nje ya mfuko wa kikundi</b>, kwa lengo la angalau <b>Tsh 100,000/=</b> kila tukio kwa ajili ya kusaidia jamii.</p>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA SITA: KUJIUNGA NA UANACHAMA</summary>
+  <div class="sb">
+  <p>Wanachama wapya wanakaribishwa kujiunga (uanachama mpya kuanzia Machi 2025): mwanafunzi aliyesoma Christ the King Primary School (2006–2012); kulipa ada ya kujiunga inayohusisha michango ya nyuma ya wanachama wa sasa.</p>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA SABA: MUMO WA UONGOZI (KAMATI KUU)</summary>
+  <div class="sb">
+  <div class="amendment"><b>Marekebisho (Septemba 2026):</b> Kamati Kuu sasa ina viongozi <b>watatu</b> — hapo awali ilikuwa watano (Mwenyekiti, Mwenyekiti Msaidizi, Katibu, Mweka Hazina, Mweka Hazina Msaidizi).</div>
+  <ol>
+    <li><b>(a) Mwenyekiti — SAMWEL KIMARO:</b> Mwanzilishi na msimamizi wa kikundi; anasimamia katiba; ndiye mtu wa mwisho kuidhinisha uhamisho wa malipo (Idhinisha fedha — M-Koba); anahakikisha kikundi kinaimarika na kuwajibika.</li>
+    <li><b>(b) Katibu — PENDO MALANGWA:</b> Anayeanzisha malipo yote kwa wanachama (Hamisha fedha — M-Koba); mwandishi na mwekaji wa kumbukumbu za majadiliano; mfuatiliaji wa maazimio na mipango; msimamizi wa orodha ya wanachama.</li>
+    <li><b>(c) Mwekahazina — VANESSA SOKA:</b> Anathibitisha malipo yanayotolewa (Hakiki fedha — M-Koba); hufuatilia na kuwakumbusha wanachama kuhusu michango na faini; hurekodi maingizo ya michango na kutoa taarifa za fedha kila mwezi; mtunza kumbukumbu za uwekezaji.</li>
+  </ol>
+  <p><b>NB:</b> Ukomo wa viongozi hautatofautiana na ukomo wa wanakikundi, na endapo wanakikundi watahitaji mabadiliko, mapendekezo yanafanyika na kura zitapigwa.</p>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA NANE: VIONGOZI KUKOSA SIFA ZA KUONGOZA</summary>
+  <div class="sb">
+  <ul>
+    <li><b>8.1(a)</b> Kukiuka kanuni na taratibu za kikundi.</li>
+    <li><b>8.1(b)</b> Uvunjifu wa maadili ya uongozi (kutokuwa na heshima, kutokujali, tabia zisizostahili).</li>
+    <li><b>8.1(c)</b> Kushindwa kutimiza majukumu ya uongozi kama yaliyotarajiwa na katiba.</li>
+    <li><b>8.1(d)</b> Uvunjaji wa imani na wanakikundi (wanakupoteza imani au kudharauliwa).</li>
+    <li><b>8.1(e)</b> Kushindwa kufuata maazimio ya kikundi.</li>
+    <li><b>8.1(f)</b> Kukosa uwazi na uwajibikaji (hasa katika matumizi ya fedha au maamuzi muhimu).</li>
+    <li><b>8.1(g)</b> Uvunjaji wa maadili ya kikundi (kuendesha shughuli zisizolingana na malengo ya kikundi).</li>
+  </ul>
+  </div></details>
+
+  <details class="sec"><summary>SEHEMU YA TISA: MABORESHO YA KATIBA NA SERA YA KUONDOLEWA</summary>
+  <div class="sb">
+  <p><b>9.1 Maboresho ya katiba:</b> (a) Kila mwaka, kuanzia mwaka wa pili, wanachama wataweza kuwasilisha mapendekezo ya marekebisho kwa kamati kuu. (b) Mabadiliko yoyote yatahitaji ridhaa ya <b>zaidi ya 75% ya wanachama wote</b>.</p>
+  <div class="warn"><b>9.2 SERA YA KUONDOLEWA KWA WANACHAMA (Mpya — Septemba 2026)</b>
+    <ul style="margin:6px 0 0 18px;">
+      <li>Wanachama walioachia kutochangia na wasiojitokeza kwa muda mrefu wameondolewa kwenye kikundi mnamo <b>Septemba 2026</b>.</li>
+      <li>Mwanachama anayebaki na deni asilazimika kukubali mpango wa kulipa na kufidia <b>angalau 75% ya deni lake kabla ya 31 Desemba 2026</b> ili abaki kuwa mwanakikundi.</li>
+      <li>Mwanachama asiyezingatia sheria hii ataondolewa kwenye kikundi.</li>
+      <li>Mwanachama aliyeondolewa anafahamishwa kwa maandishi (WhatsApp) na kupewa fursa ya kutoa maelezo kwenye mkutano halali.</li>
+      <li>Wanachama walioondolewa <b>hawatahesabiwa katika faida za uwekezaji</b>, na michango yao hairejeshwi (kwa mujibu wa 3.1.5 NB).</li>
+    </ul>
+  </div>
+  </div></details>
+
+  <div class="sig">
+    <b>Katiba imesasishwa na kupitishwa mwezi Septemba 2026.</b><br>
+    MWENYEKITI — SAMWEL KIMARO<br>
+    KATIBU — PENDO MALANGWA<br>
+    MWEKAHAZINA — VANESSA SOKA
+  </div>
+</div>
+
+<div class="panel" id="panel-invest">
+  <h2>MPANGO WA UWEKEZAJI — CTK MKOBA 2012</h2>
+  <div class="note"><b>Mkakati:</b> UTT <b>Umoja Fund</b> ndiko chombo kikuu — mchanganyiko wa 50% hisa + 50% fixed income. Faida ya kihistoria 12–14% kwa mwaka, hakuna kufungwa kwa muda mrefu (kutolewa baada ya siku 10 za kazi). Namba zilizo hapa ni zinazoonekana kwenye viwanja rasmi (Agosti–Septemba 2026) — <b>thibitisha tena kabla ya kuwekeza</b>.</div>
+
+  <div class="cards">
+    <div class="card"><div class="lbl">Fedha kwenye Akaunti (M-Koba)</div><div class="val">TZS 3,590,000</div><div class="small">Kufikia Septemba 2026</div></div>
+    <div class="card"><div class="lbl">Pendekezo la kuwekeza (60–70%)</div><div class="val" style="color:var(--amber);">~TZS 2,150,000–2,500,000</div><div class="small">Sehemu kubwa yawekezwe; ~30–40% ibaki kwa dharura na misaada ya kikatiba</div></div>
+    <div class="card"><div class="lbl">Mwekezaji wa kila mwezi (30%)</div><div class="val">~TZS 90,000</div><div class="small">Kutoka TZS 300,000 ya michango (Wanachama 30 wanaotenda &times; 10,000)</div></div>
+  </div>
+
+  <details class="sec" open><summary>1. Nafasi za Uwekezaji na Viwango vya Faida (2026)</summary>
+  <div class="sb">
+  <p class="mini">Bonyeza kila chombo ili kuona maelezo kamili.</p>
+
+  <details class="fund" open><summary>Treasury Bills (Serikali) &nbsp;<span class="rate">35d ~2.1% &middot; 91d ~3.4% &middot; 182d ~5.1% &middot; 364d ~6.6%</span> &nbsp;<span class="pill safe">Salama zaidi</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> Bank of Tanzania (BoT) — tenors 35, 91, 182 na 364-day.<br>
+    <b>Kiwango cha chini:</b> TZS 500,000 (vingi vya 10,000).<br>
+    <b>Ufikivu:</b> imedhaminiwa na Serikali; fedha imefungwa hadi kukomaa (wiki–mwaka 1).
+    <a class="pl" target="_blank" rel="noopener" href="https://www.bot.go.tz">bot.go.tz — makisio na mnada (auctions)&#8599;</a>
+  </div></details>
+
+  <details class="fund"><summary>Treasury Bonds (Serikali) &nbsp;<span class="rate">2yr ~8.4% &middot; 10yr ~10.9%</span> &nbsp;<span class="pill safe">Salama zaidi</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> Bank of Tanzania — tenors 2–20 yrs; soko la pili (secondary) DSE.<br>
+    <b>Kiwango cha chini:</b> TZS 1,000,000 (vingi vya 100,000).<br>
+    <b>Ufikivu:</b> muda mrefu — kwa fedha za muda mrefu tu.
+    <a class="pl" target="_blank" rel="noopener" href="https://www.bot.go.tz">bot.go.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://www.dse.co.tz">dse.co.tz&#8599;</a>
+  </div></details>
+
+  <p style="margin:10px 0 4px;"><b>Money Market Funds (unit trusts)</b> — <span class="mini">Fedha fupi-fupi, uhakika mkubwa; hutengeneza faida zaidi ya benki. Vyote vimesajiliwa na CMSA.</span></p>
+
+  <details class="fund"><summary>UTT Liquid Fund &nbsp;<span class="rate">~8–10% p.a.</span> &nbsp;<span class="pill safe">Chini</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> UTT AMIS (CMSA-licensed).<br>
+    <b>Kiwango cha chini:</b> kutoka ~TZS 10,000–50,000.<br>
+    <b>Ufikivu:</b> karibu wa kila siku (T+1–T+3).
+    <a class="pl" target="_blank" rel="noopener" href="https://www.uttamis.co.tz">uttamis.co.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://uwekezaji.uttamis.co.tz">Lango la Investimenti (uwekezaji.uttamis.co.tz)&#8599;</a>
+  </div></details>
+
+  <details class="fund"><summary>iTrust iCash Fund &nbsp;<span class="rate">13.08% (miezi 12, Sep 2026)</span> &nbsp;<span class="pill safe">Chini</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> iTrust Finance.<br>
+    <b>Kiwango cha chini:</b> TZS 100,000 (mwanzo); 10,000 zaidi.<br>
+    <b>Ufikivu:</b> kutolewa T+3 (siku 3 za kazi); mlezi NBC Bank.
+    <a class="pl" target="_blank" rel="noopener" href="https://itrust.co.tz">itrust.co.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://investor.itrust.co.tz">Lango la Investimenti (investor.itrust.co.tz)&#8599;</a>
+  </div></details>
+
+  <details class="fund"><summary>SanlamAllianz Pesa Fund &nbsp;<span class="rate">10.78% (effective annual yield, Sep 2026)</span> &nbsp;<span class="pill safe">Chini</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> Sanlam Allianz Investments TZ.<br>
+    <b>Kiwango cha chini:</b> TZS 10,000.<br>
+    <b>Ufikivu:</b> kutolewa wakati wowote (T+2–T+3); mlezi CRDB.
+    <a class="pl" target="_blank" rel="noopener" href="https://invest-tz.sanlamallianzinvestments.com">invest-tz.sanlamallianzinvestments.com&#8599;</a>
+  </div></details>
+
+  <details class="fund"><summary>Inuka Money Market Fund &nbsp;<span class="rate">~8.5% APY</span> &nbsp;<span class="pill safe">Chini</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> Orbit Securities.<br>
+    <b>Kiwango cha chini:</b> TZS 10,000.<br>
+    <b>Ufikivu:</b> kutolewa T+3 (siku 3 za kazi).
+    <a class="pl" target="_blank" rel="noopener" href="https://orbit.co.tz/inuka-fund">orbit.co.tz/inuka-fund&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://inukafund.orbit.co.tz">Lango (inukafund.orbit.co.tz)&#8599;</a>
+  </div></details>
+
+  <p style="margin:10px 0 4px;"><b>Balanced Unit Trust</b> — <span class="mini">Mchanganyiko wa hisa + deni la serikali — inakua kwa muda mrefu lakini thamani hubadilika.</span></p>
+
+  <details class="fund" open><summary>UTT Umoja Fund &nbsp;<span style="color:var(--green-d);font-weight:700;">&#9733; Chombo Kikuu cha Kikundi</span> &nbsp;<span class="rate">~11–13.5% p.a.</span> &nbsp;<span class="pill med">Kati</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> UTT AMIS (CMSA-licensed; custodian CRDB).<br>
+    <b>Kiwango cha chini:</b> &approx; thamani ya units 10 (~TZS 17,000 kama 3 Sep 2026; NAV/unit 1,664.43).<br>
+    <b>Faida ya kihistoria:</b> 11.2% &middot; 12.1% &middot; 13.3% (FY22/23–24/25).<br>
+    <b>Ufikivu:</b> hisa huzunguka (hazifungwi); kutolewa T+10 (siku 10 za kazi).
+    <a class="pl" target="_blank" rel="noopener" href="https://www.uttamis.co.tz/products/umoja-fund">uttamis.co.tz/products/umoja-fund&#8599;</a>
+  </div></details>
+
+  <details class="fund"><summary>Fixed Deposit (Benki) &nbsp;<span class="rate">~7–9% p.a.</span> &nbsp;<span class="pill safe">Chini</span></summary>
+  <div class="fb">
+    <b>Mahali / Mdhibiti:</b> CRDB, NMB, Stanbic, NBC, Equity, KCB (BoT-supervised).<br>
+    <b>Kiwango cha chini:</b> kawaida TZS 100,000–500,000+.<br>
+    <b>Ufikivu:</b> masharti ya 3–12 miezi; imefungwa — onyo la kutoa kabla ya muda.
+    <a class="pl" target="_blank" rel="noopener" href="https://crdbbank.co.tz">crdbbank.co.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://www.nmbbank.co.tz">nmbbank.co.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://www.stanbicbank.co.tz">stanbicbank.co.tz&#8599;</a>
+    <a class="pl" target="_blank" rel="noopener" href="https://www.nbc.co.tz">nbc.co.tz&#8599;</a>
+  </div></details>
+
+  <p class="mini" style="margin-top:8px;">Mdhibiti wa mfuko wa pamoja Tanzania ni <b>CMSA — Capital Markets and Securities Authority</b> (<a href="https://www.cmsa.go.tz" target="_blank" rel="noopener" style="color:var(--blue);">cmsa.go.tz&#8599;</a>). Hati na fahali halali huwa na rasimu/offer document kutoka kwa kila msimamizi wa mfuko.</p>
+  </div></details>
+
+  <details class="sec"><summary>2. Mpango uliopendekezwa kwa Kikundi</summary>
+  <div class="sb">
+  <table class="inv">
+    <tr><th>Hatua</th><th>Maelezo</th></tr>
+    <tr><td>1. Wekezaji wa mwanzo</td><td>~60–70% ya salio (TZS ~2M–2.4M) kuwekezwa; ~30–40% kubaki kwa misaada ya kikatiba na dharura.</td></tr>
+    <tr><td>2. Michango ya kila mwezi</td><td>30% ya michango (kutoka TZS 300,000 = Wanachama 30 wanaotenda &times; 10,000) yawekezwe kila mwezi (~TZS 90,000).</td></tr>
+    <tr><td>3. Muda uliopangwa</td><td>Faida haitakusanywa kwa wakati mmoja — itaendelea kujilimbikiza ili mtaji ukue.</td></tr>
+  </table>
+  <h3 style="margin:12px 0 6px;font-size:14px;">Makadirio ya Ukuaji (kwa 12.1% kwa mwaka; mwanzo ~TZS 2.2M + TZS 90,000 kwa mwezi)</h3>
+  <table class="inv">
+    <tr><th>Muda</th><th>Michango jumla</th><th>Thamani inayokadiriwa</th></tr>
+    <tr><td>Miaka 5</td><td>~TZS 7.6M (2.2M mwanzo + 90,000/mwezi)</td><td><b>~TZS 11.4M</b></td></tr>
+    <tr><td>Miaka 10</td><td>~TZS 13.0M</td><td><b>~TZS 28.2M</b> (faida ~15.2M)</td></tr>
+    <tr><td>Miaka 20</td><td>~TZS 23.8M</td><td><b>~TZS 114.7M</b> (faida ~90.9M)</td></tr>
+    <tr><td>Miaka 30</td><td>~TZS 34.6M</td><td><b>~TZS 403M</b> (faida ~368M)</td></tr>
+  </table>
+  <p class="mini" style="margin-top:6px;">Makadirio ni ya hisabati (compound 12.1% kwa mwaka); namba za miaka mingi huonekana kubwa kutokana na riba kujilimbikiza — ni mfano wa ukuaji wa muda mrefu, si ahadi ya faida. Kiasi halisi (60–70%) na vyombo vitathibitishwa kwa kura ya wanachama.</p>
+  </div></details>
+
+  <details class="sec"><summary>3. Kidhibiti cha Mgao wa Faida (returns kwa uwiano wa michango)</summary>
+  <div class="sb">
+  <div class="calc">
+    <div class="row">
+      <div><label>Kiasi cha kuwekeza (TZS)</label><input id="amt" type="number" value="2200000" step="100000"></div>
+      <div><label>Faida inayotarajiwa kwa mwaka (%)</label><input id="rate" type="number" value="8" step="0.5"></div>
+      <div><label>Wanachama wenye haki</label>
+        <select id="set">
+          <option value="26">Waliopitishwa (26)</option>
+          <option value="30">Wote wanaotenda (30)</option>
+        </select>
+      </div>
+    </div>
+    <div class="res" id="res"></div>
+  </div>
+  <p class="mini" style="margin-top:8px;">Wanachama walioondolewa na waliojiaondoa hawahesabiwi. Kwa mwanachama aliye na deni la kikatiba, uongozi unaweza kutumia mgao wake kufidia deni (tazama Katiba 4.2).</p>
+  </div></details>
+
+  <details class="sec"><summary>4. Hisa, Mikopo na Mtaji wa Mwaka (rasimu ya Septemba 2026)</summary>
+  <div class="sb">
+  <div class="note">Sehemu hii ni <b>rasimu (draft)</b> — itajiunga na katiba kama sura <b>4.3 Hisa</b>, <b>4.4 Mikopo na Riba</b> na <b>4.5 Mtaji na Gharama za Uendeshaji</b> baada ya idhini ya zaidi ya 75% ya wanachama (kwa mujibu wa Katiba 9.1).</div>
+  <table class="inv">
+    <tr><th>Kipengele</th><th>Maelezo</th></tr>
+    <tr><td><b>Hisa 1</b></td><td><b>TZS 10,000</b> — mwanachama yeyote anaweza kununua wakati wowote kupitia Mwekahazina; rekodi hutunzwa na kuripotiwa kila mwezi.</td></tr>
+    <tr><td><b>Lengo la hisa (mwaka 1)</b></td><td>Angalau <b>hisa 12 (= TZS 120,000)</b> kwa kila mwanachama kufikia Agosti 2027; linaweza kulipwa kwa awamu (hisa 1–2 kwa mwezi).</td></tr>
+    <tr><td><b>Kikomo cha hisa</b></td><td><b>hisa 50 (= TZS 500,000)</b> kwa mwanachama mmoja — ili mgawo wa faida ubaki sawa na haki.</td></tr>
+    <tr><td><b>Dividends</b></td><td>Mara moja kwa mwaka: mgawo wa faida ya uwekezaji + riba ya mikopo kwa uwiano wa hisa alizonazo.</td></tr>
+    <tr><td><b>Mikopo</b></td><td>Hadi <b>80% ya (mchango + hisa)</b> za mwanachama, na si zaidi ya <b>TZS 2,000,000</b>; jumla ya mikopo wakati wowote isizidi 60–70% ya salio. Maombi yanaidhinishwa na Kamati Kuu.</td></tr>
+    <tr><td><b>Riba (interest)</b></td><td><b>10% flat</b> ya kiasi cha mkopo — inahesabiwa mara moja wakati mkopo unatolewa.</td></tr>
+    <tr><td><b>Marejesho</b></td><td>Mkopo wa hadi TZS 500,000 → <b>miezi 6</b>. Mkopo wa zaidi ya TZS 500,000 → <b>miezi 12 (mwaka 1)</b> kwa idhini ya Kamati Kuu.</td></tr>
+    <tr><td><b>Faini ya kuchelewesha</b></td><td>Zaidi ya siku 30 → <b>2% ya kiasi kilichobaki</b> kwa kila mwezi wa kuchelewa. Kuchelewa mara 3 mfululizo → <b>dividends na faida ya uwekezaji hutumika kufidia deni</b>.</td></tr>
+    <tr><td><b>Mtaji wa mwanachama (mwaka)</b></td><td>Angalau <b>TZS 240,000</b> = michango 120,000 + hisa 120,000.</td></tr>
+    <tr><td><b>Gharama za uendeshaji</b></td><td>Kutoka: hadi <b>20% ya riba ya mikopo</b>; ada ya uanachama <b>TZS 20,000</b>/mwaka; na ikibidi hadi 5% ya faida ya mwaka kwa idhini ya mkutano.</td></tr>
+  </table>
+  <h3 style="margin:12px 0 6px;font-size:14px;">Kidhibiti cha Mkopo (Riba 10% flat)</h3>
+  <div class="calc">
+    <div class="row">
+      <div><label>Kiasi cha mkopo (TZS)</label><input id="amtLoan" type="number" value="300000" step="100000"></div>
+      <div><label>Kipindi (miezi)</label>
+        <select id="termLoan">
+          <option value="6">Miezi 6 (mikopo hadi 500,000)</option>
+          <option value="12">Miezi 12 (mikopo zaidi ya 500,000)</option>
+        </select>
+      </div>
+    </div>
+    <div class="res" id="resLoan"></div>
+  </div>
+  </div></details>
+</div>
+
+<div class="panel" id="panel-faq">
+  <h2>FREQUENTLY ASKED QUESTIONS (FAQs)</h2>
+
+  <details class="faq" open><summary>CTK Mkoba ni nini?</summary>
+  <div class="a">CTK Mkoba ni kikundi cha kusaidiana kwa wanachama waliomaliza Christ the King Primary School mwaka 2012. Kiliundwa kwa lengo la kusaidiana kifedha na kijamii katika misiba, harusi, sendoff, na magonjwa.</div></details>
+
+  <details class="faq"><summary>Michango na Ada ni kiasi gani?</summary>
+  <div class="a">Kila mwanachama anachangia <b>Tsh 10,000</b> kila mwezi. Kuna ada ya mwaka ya <b>Tsh 20,000</b> inayotakiwa kulipwa ndani ya miezi 6 ya mwanzo wa mwaka (kabla ya Juni). Hapo awali mchango ulikuwa Tsh 5,000 — umeongezwa ili kuwezesha maendeleo na uwekezaji.</div></details>
+
+  <details class="faq"><summary>Ni lini na wapi tunahifadhi fedha za kikundi?</summary>
+  <div class="a">Fedha zote zinahifadhiwa kwenye akaunti ya <b>M-KOBA (M-Pesa)</b> kwa usalama. Malipo kwa wanachama hufanyika kupitia njia rasmi baada ya uthibitisho wa viongozi.</div></details>
+
+  <details class="faq"><summary>CTK Mkoba inafanya uwekezaji gani?</summary>
+  <div class="a">Kuanzia <b>Septemba 2026</b>, kikundi kinawekeza kupitia vyombo vya kifedha vilivyoidhinishwa na CMSA/BoT — chengo kikuu ni <b>UTT AMIS</b> (mfuko wa Umoja) pamoja na money market funds, Treasury Bills na Bonds. Tazama kichupo cha <a href="#invest" onclick="show('invest');return false;" style="color:var(--blue);font-weight:600;">Uwekezaji</a> kwa viwango na viungo.</div></details>
+
+  <details class="faq"><summary>Ninaweza kujiunga na CTK Mkoba?</summary>
+  <div class="a">Ndiyo! Wanachama wapya wanakaribishwa kujiunga (uanachama mpya kuanzia Machi 2025). Ikiwa utajiunga kabla ya tarehe ya kukamilika kwa ada ya awali, utalipa ada za kawaida bila faini; baadaye utatakiwa kulipa michango ya nyuma yenye muundo uliowekwa na kikundi. Wasiliana na Katibu kwa maelezo.</div></details>
+
+  <details class="faq"><summary>CTK Mkoba hutoa msaada gani kwa wanachama wake?</summary>
+  <div class="a">
+    <div class="note" style="margin-top:0;"><b>Marekebisho (Oktoba 2026):</b> Misaada imesasishwa kutokana na kupungua kwa wanachama. Babyshower/Kujifungua <b>imeondolewa</b> kwenye misaada ya mfuko.</div>
+    <ul>
+      <li>Misiba (wazazi, watoto, dada/kaka wa tumbo moja) — <b>Tsh 150,000</b></li>
+      <li>Harusi/Sendoff — <b>Tsh 100,000</b> kama zawadi ya pongezi</li>
+      <li>Ajali/Ugonjwa wa kulazwa zaidi ya siku 4 — <b>Tsh 150,000</b></li>
+    </ul>
+  </div></details>
+
+  <details class="faq"><summary>Kuna adhabu kwa kuchelewa kulipa michango?</summary>
+  <div class="a">Ndiyo. Mwanachama atakayechelewa mchango wa miezi miwili mfululizo atalipa <b>Tsh 10,000</b> pamoja na mchango wa miezi aliyoacha. Utaratibu huu wa faini <b>unaanza kutumika Januari 2027</b>. Mwanachama asiyelipa kwa miezi sita mfululizo bila taarifa ataondolewa kwenye kikundi.</div></details>
+
+  <details class="faq"><summary>Nini kimetokea kwa wanachama wasiolipa (Septemba 2026)?</summary>
+  <div class="a">Wanachama walioachia kutochangia wameondolewa Septemba 2026. Wenye madeni waliobaki waombwa kukubali mpango wa kulipa na kufidia <b>angalau 75% ya deni kabla ya 31 Desemba 2026</b>. Faida ya uwekezaji kwa mwanachama mwenye deni itatumika <b>kwanza kufidia deni lake</b> kabla ya kulipwa kwa mwanachama (kwa mujibu wa Katiba 4.2).</div></details>
+
+  <details class="faq"><summary>Faida ya uwekezaji inagawanywaje?</summary>
+  <div class="a">Faida inagawiwa kwa <b>uwiano wa michango (pro-rata)</b> — mwenye kuchangia zaidi anapata mgao mkubwa zaidi. Deni la mwanachama hufidiwa kwanza na mgao wake, halafu salio litapewa mwenyewe. Wanachama walioondolewa hawahesabiwi.</div></details>
+
+  <details class="faq"><summary>CTK Mkoba inafanya shughuli za kusaidia jamii?</summary>
+  <div class="a">Ndiyo. Kikundi hufanya matukio mawili ya hisani kila mwaka (mfano Pasaka na Krismasi / Machi na Septemba) kwa lengo la angalau Tsh 100,000 kwa tukio, kwa njia iliyo nje ya mfuko wa kikundi.</div></details>
+
+  <details class="faq"><summary>Nani viongozi wa CTK Mkoba?</summary>
+  <div class="a">
+    <ol>
+      <li><b>Samwel Kimaro</b> — Mwenyekiti</li>
+      <li><b>Pendo Malangwa</b> — Katibu</li>
+      <li><b>Vanessa Soka</b> — Mwekahazina</li>
+    </ol>
+  </div></details>
+
+  <details class="faq"><summary>Je, ninaweza kupata mkopo (loan) kwenye kikundi?</summary>
+  <div class="a">Ndiyo. Mwanachama anaweza kuomba mkopo kwa Kamati Kuu. Riba ni <b>10% (flat)</b> ya kiasi alichokopa. Mkopo wa hadi TZS 500,000 hurejeshwa ndani ya <b>miezi 6</b>; wa zaidi ya 500,000 hadi TZS 2,000,000 ndani ya <b>miezi 12 (mwaka 1)</b> kwa idhini ya Kamati Kuu. Kuchelewesha marejesho kunaleta faini ya <b>2% kwa mwezi</b> ya kiasi kilichobaki, na dividends/hisa zinaweza kufidia deni. Tazama Katiba 4.4.</div></details>
+
+  <details class="faq"><summary>Je, hisa (shares) zinafanyaje kazi?</summary>
+  <div class="a">Hisa moja ni <b>TZS 10,000</b>. Kila mwanachama atarajiwa kufikia angalau <b>hisa 12 (= TZS 120,000)</b> ndani ya mwaka mmoja. Hisa hulipa <b>dividends</b> kutoka faida ya uwekezaji + riba ya mikopo, kwa uwiano wa hisa alizonazo. Upeo wa hisa za mwanachama mmoja ni <b>hisa 50 (= TZS 500,000)</b>. Tazama Katiba 4.3.</div></details>
+
+  <details class="faq"><summary>Mtaji wa mwaka na gharama za uendeshaji vikoje?</summary>
+  <div class="a">Mtaji wa mwanachama kwa mwaka = michango + hisa, lengo <b>TZS 240,000</b> (michango 120,000 + hisa 120,000). Gharama za uendeshaji hutolewa kutoka: <b>hadi 20% ya riba ya mikopo</b>, ada ya uanachama (TZS 20,000/mwaka), na ikibidi hadi 5% ya faida ya mwaka kwa idhini ya mkutano. Tazama Katiba 4.5.</div></details>
+</div>
+
+<div class="panel" id="panel-meet">
+  <h2>MWONGOZO WA MWELEKEO WA MBELE — AGENDA YA MKUTANO UJAO</h2>
+  <div class="note">Hii ni <b>rasimu ya mwongozo</b> wa kujadiliwa na kupigiwa kura kwenye mkutano ujao wa wanachama. Baada ya maamuzi, taarifa hii itasasishwa na kuwa rasmi. <b>Mabadiliko ya katiba yanahitaji sauti za zaidi ya 75% ya wanachama wote</b> (Katiba 9.1); maamuzi mengine yanahitaji walio wengi (zaidi ya nusu).</div>
+
+  <table class="inv">
+    <tr><th>#</th><th>Kipengele</th><th>Pendekezo la uongozi</th><th>Kura</th></tr>
+    <tr><td>1</td><td><b>Uidhinishaji wa Uwekezaji rasmi</b></td><td>Kiwango cha awali <b>60–70%</b> ya salio (TZS ~2M–2.4M) kiwekezwe; chombo kikuu <b>UTT Umoja Fund</b> (UTT AMIS, CMSA-approved).</td><td>&gt;75%</td></tr>
+    <tr><td>2</td><td><b>Michango ya kila mwezi kwa uwekezaji</b></td><td><b>30%</b> ya michango za mwezi (karibu TZS 90,000 kwa sasa) ziende moja kwa moja kwenye uwekezaji.</td><td>&gt;75%</td></tr>
+    <tr><td>3</td><td><b>4.3 Hisa</b></td><td>Hisa 1 = TZS 10,000; lengo ≥ hisa 12 (=120,000)/mwaka; upeo hisa 50 (=500,000); dividends mara moja kwa mwaka.</td><td>&gt;75%</td></tr>
+    <tr><td>4</td><td><b>4.4 Mikopo na Riba</b></td><td>Mkopo hadi 80% ya (mchango+hisa), upeo 2,000,000; riba <b>10% flat</b>; marejesho 6/12 miezi; faini 2%/mwezi ya salio baada ya siku 30.</td><td>&gt;75%</td></tr>
+    <tr><td>5</td><td><b>4.5 Mtaji na Gharama</b></td><td>Mtaji wa mwanachama ≥ TZS 240,000/mwaka; gharama za uendeshaji kutoka hadi 20% ya riba + ada 20,000/mwaka + (ikibidi) 5% ya faida.</td><td>&gt;75%</td></tr>
+    <tr><td>6</td><td><b>Marekebisho ya Misaada (4.1.4)</b></td><td>Msiba <b>TZS 150,000</b>; Harusi/Sendoff <b>TZS 100,000</b>; Ugonjwa/Ajali <b>TZS 150,000</b>; <b>Babyshower/Kujifungua imeondolewa</b> (kutokana na wanachama 30).</td><td>&gt;75%</td></tr>
+    <tr><td>7</td><td><b>Hali ya wanachama 2026</b></td><td>Orodha rasmi = <b>30 wanaotenda</b>. Wenye madeni wafikie <b>75% ya deni ifikapo 31 Desemba 2026</b>; vinginevyo mgao wao wa faida hufidia deni (4.2).</td><td>Wajadili</td></tr>
+    <tr><td>8</td><td><b>Faini (4.1.2)</b></td><td>Faini <b>TZS 10,000</b> za kuchelewa zaidi ya miezi miwili — zinaanza <b>Januari 2027</b>; kuagwa na kuripotiwa na Mwekahazina kila mwezi.</td><td>Wajadili</td></tr>
+    <tr><td>9</td><td><b>Utawala na usimamizi</b></td><td>Kamati Kuu ya 3 (Mwenyekiti, Katibu, Mwekahazina) iendelee; uongozi uripoti fedha na uwekezaji kila mwezi; bajeti ya mwaka ipitishwe na wanachama.</td><td>Wajadili</td></tr>
+    <tr><td>10</td><td><b>Matukio ya hisani (SEHEMU YA TANO)</b></td><td>Matukio mawili ya mwaka yadumu (angalau TZS 100,000 kila tukio), fedha kutoka nje ya mfuko.</td><td>Wajadili</td></tr>
+  </table>
+
+  <h3>Hatua baada ya mkutano</h3>
+  <ul>
+    <li>Kura zilizopitishwa zitajumuishwa rasmi kwenye katiba na mpango huu (taarifa itasasishwa).</li>
+    <li>Mwekahazina atatoa taarifa ya fedha na uwekezaji kila mwezi kwa wanachama.</li>
+    <li>Rekodi za hisa na mikopo zitaanzishwa kuanzia tarehe ya uidhinishaji.</li>
+    <li>Sajili ya wanachama (30) na hali ya madeni kwa kila mmoja — inaonekana kwenye Dashboard kuu.</li>
+  </ul>
+</div>
+
+<footer>CTK MKOBA 2012 &middot; Katiba, Uwekezaji, Maswali na Mwongozo wa Mkutano &middot; Imesasishwa Oktoba 2026 &middot; Viwango vya faida huhakikiwa na uongozi kila mwezi.</footer>
+</div>
+
+<script>
+DATA_MARKER_9F2E
+const MEMBERS = D.members;
+const fmt = n => 'TZS ' + Math.round(n).toLocaleString('en-US');
+const paid = m => sum(m.y24)+sum(m.y25)+sum(m.y26);
+const sum = a => a.reduce((x,v)=>x+v,0);
+const EXCLUDED_26 = ['VANESSA EDWARD SITTA','CAREEN RINGO','MAUREEN MBELWA','ZAKARIA KASIMILA JR'];
+
+function show(which){
+  ['katiba','invest','faq','meet'].forEach(k=>{
+    document.getElementById('tab'+k[0].toUpperCase()+k.slice(1)).classList.toggle('on', k===which);
+    document.getElementById('panel-'+k).classList.toggle('on', k===which);
+  });
+  location.hash = which;
+}
+if(location.hash && ['katiba','invest','faq','meet'].includes(location.hash.slice(1))) show(location.hash.slice(1));
+
+function eligible(){
+  const mode = document.getElementById('set').value;
+  return MEMBERS.filter(m=>{
+    if(m.status!=='ACTIVE') return false;
+    if(mode==='26' && EXCLUDED_26.includes(m.name.toUpperCase())) return false;
+    return true;
+  }).sort((a,b)=>paid(b)-paid(a) || a.name.localeCompare(b.name));
+}
+
+function calc(){
+  const el = document.getElementById('res'); if(!el) return;
+  const amt = parseFloat(document.getElementById('amt').value)||0;
+  const rate = parseFloat(document.getElementById('rate').value)||0;
+  const members = eligible();
+  const totalPaid = members.reduce((x,m)=>x+paid(m),0);
+  const ret = amt*rate/100;
+  let h = '<h3 style="font-size:14px;margin-bottom:6px;">TZS '+amt.toLocaleString()+' ukilipwa faida ya '+rate+'% kwa mwaka → faida ya TZS '+ret.toLocaleString()+' igawiwe kwa wanachama '+members.length+'.</h3>';
+  h += '<table class="share"><tr><th>Mwanachama</th><th>Alichochangia</th><th>%</th><th>Makadirio ya mgao</th></tr>';
+  members.forEach(m=>{
+    const p = paid(m);
+    const pct = totalPaid? p/totalPaid*100 : 0;
+    const sh = ret*pct/100;
+    h += '<tr><td>'+m.name+'</td><td>'+fmt(p)+'</td><td>'+pct.toFixed(2)+'%</td><td>'+fmt(sh)+'</td></tr>';
+  });
+  h += '<tr style="border-top:2px solid var(--line);font-weight:700;"><td>JUMLA</td><td>'+fmt(totalPaid)+'</td><td>100%</td><td>'+fmt(ret)+'</td></tr></table>';
+  el.innerHTML = h;
+}
+
+function calcLoan(){
+  const el = document.getElementById('resLoan'); if(!el) return;
+  const amt = parseFloat(document.getElementById('amtLoan').value)||0;
+  const months = parseInt(document.getElementById('termLoan').value)||6;
+  const total = amt*1.10;
+  const inst = total/months;
+  el.innerHTML = '<p style="font-size:13px;margin-bottom:4px;">Kiasi ulichokopa: <b>'+fmt(amt)+'</b> &middot; Riba 10%: <b>'+fmt(amt*0.10)+'</b></p>' +
+    '<p style="font-size:13px;">Jumla ya kurejesha: <b>'+fmt(total)+'</b> &middot; Kwa mwezi (miezi '+months+'): <b>'+fmt(inst)+'</b></p>';
+}
+
+document.getElementById('amt').addEventListener('input', calc);
+document.getElementById('rate').addEventListener('input', calc);
+document.getElementById('set').addEventListener('input', calc);
+document.getElementById('amtLoan').addEventListener('input', calcLoan);
+document.getElementById('termLoan').addEventListener('change', calcLoan);
+calc();
+calcLoan();
+</script>
+</body>
+</html>
