@@ -207,7 +207,7 @@ CTK MKOBA 2012 LEADERSHIP</div>
   <div class="leader"><div class="av">VS</div><div class="role">Mweka Hazina (Treasurer)</div><div class="who">Vanessa Soka</div></div>
 </div>
 <p class="mini" style="margin-top:8px;">Hawa ndio viongozi watatu walioidhinishwa kwenye katiba.</p>
-<footer>CTK MKOBA 2012 &middot; Data kwa mujibu wa Google Sheet (Septemba 2026) &middot; Hati hii ni ya taarifa za kikundi tu.</footer>
+<footer>CTK MKOBA 2012 &middot; Data kwa mujibu wa Google Sheet (Oktoba 2026) &middot; Hati hii ni ya taarifa za kikundi tu.</footer>
 </div>
 
 <script>
@@ -225,15 +225,15 @@ const since = status => {
 
 function paid(m){ return sum(m.y24)+sum(m.y25)+sum(m.y26); }
 function sum(a){ return a.reduce((x,v)=>x+v,0); }
-const EXP_SEP = 270000;   // 60,000 (2024) + 120,000 (2025) + 90,000 (2026 hadi Sep)
+const EXP_SEP = 280000;   // 60,000 (2024) + 120,000 (2025) + 100,000 (2026 hadi Okt)
 const EXP_YEAR = 300000;  // kwa mwaka kamili 2026
 const SW_MONTHS = ['Januari','Februari','Machi','Aprili','Mei','Juni','Julai','Agosti','Septemba','Oktoba','Novemba','Disemba'];
 const EN_MONTHS_S = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const covered = p => {
   const surplus = Math.max(0, p - EXP_SEP);
   const months = Math.floor(surplus / 10000);
-  const i = (8 + months) % 12;
-  const y = 2026 + Math.floor((8 + months) / 12);
+  const i = (9 + months) % 12;
+  const y = 2026 + Math.floor((9 + months) / 12);
   return {f: SW_MONTHS[i] + ' ' + y, s: EN_MONTHS_S[i] + ' ' + y};
 };
 
@@ -262,10 +262,10 @@ function renderMembers(){
       '<tr><td>Mwaka wa kujiunga</td><td>'+m.join+'</td></tr>'+
       '<tr><td>Mchango 2024</td><td>'+fmt(sum(m.y24))+'</td></tr>'+
       '<tr><td>Mchango 2025</td><td>'+fmt(sum(m.y25))+'</td></tr>'+
-      '<tr><td>Mchango 2026 (hadi Septemba)</td><td>'+fmt(sum(m.y26))+'</td></tr>'+
+      '<tr><td>Mchango 2026 (hadi Oktoba)</td><td>'+fmt(sum(m.y26))+'</td></tr>'+
       '<tr><td>Jumla aliyolipa (2024–2026)</td><td>'+fmt(p)+'</td></tr>'+
-      '<tr><td>Alitakiwa kufikia Septemba (270,000)</td><td>'+fmt(EXP_SEP)+'</td></tr>'+
-      '<tr><td>Deni kufikia Septemba 2026</td><td style="color:'+(dSep>0?'var(--red)':'var(--green)')+'">'+(dSep>0?fmt(dSep):'Hakuna deni &middot; Amelipa hadi '+covered(p).f)+'</td></tr>'+
+      '<tr><td>Alitakiwa kufikia Oktoba (280,000)</td><td>'+fmt(EXP_SEP)+'</td></tr>'+
+      '<tr><td>Deni kufikia Oktoba 2026</td><td style="color:'+(dSep>0?'var(--red)':'var(--green)')+'">'+(dSep>0?fmt(dSep):'Hakuna deni &middot; Amelipa hadi '+covered(p).f)+'</td></tr>'+
       '<tr><td>Deni mwaka kamili 2026</td><td style="color:'+(dYr>0?'var(--red)':'var(--green)')+'">'+fmt(dYr)+'</td></tr>'+
       (m.name==='MICHAEL MMARI' ? '<tr><td>Kumbuka</td><td>Amejiunga Rasmi 2026; michango yake ya 2024–2025 imerekodiwa kwenye orodha.</td></tr>' : '')+
     '</table></div></div>';
